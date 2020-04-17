@@ -1,0 +1,23 @@
+version: '3.1'
+
+services:
+  # web:
+  #   ports:
+  #     - '80:80'
+
+  server:
+    build: ./server
+    environment:
+      - DATABASE_URL=postgres://postgres@db/jwt-auth
+    ports:
+      - '4000:4000'
+    depends_on:
+      - db
+
+  db:
+    image: postgres:12-alpine
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - '5432:5432'
+    restart: always
