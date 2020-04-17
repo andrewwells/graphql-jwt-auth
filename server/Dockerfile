@@ -10,13 +10,13 @@ WORKDIR /app
 # This is an optimization we can make, as this layer will be
 # cached, meaning that if we don't change the package.json file,
 # this step doesn't need to be performed again
-COPY package.json .
+COPY ./server/package.json .
 
 # Note that we're installing all dependencies, unlike the buildpack
 RUN npm install
 
 # Copy the rest of the application
-COPY . .
+COPY ./server .
 
 # Build the typescript files
 # Into the /dist folder
@@ -28,7 +28,7 @@ FROM node:12-alpine
 
 WORKDIR /app
 
-COPY package.json .
+COPY ./server/package.json .
 
 # Only install non-devDependencies
 RUN npm install --production
