@@ -1,8 +1,5 @@
 FROM node:12-alpine AS build
 
-# Create a folder for our app
-# RUN mkdir /app
-
 # Set up the working directory
 WORKDIR /app
 

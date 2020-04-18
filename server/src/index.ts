@@ -11,6 +11,7 @@ import {User} from './entity/User';
 import {createAccessToken, createRefreshToken} from './auth';
 import {sendRefreshToken} from './sendRefreshToken';
 import cors from 'cors';
+import {isProduction} from './constants';
 
 (async () => {
   //await createConnection();
@@ -26,7 +27,7 @@ import cors from 'cors';
     // Change the next line to use the Heroku postgresql from other environment like localhost, remenber that heroku changes this data periodically for security reasons
     url: process.env.DATABASE_URL,
 
-    entities: ['entity/**/*.js'],
+    entities: isProduction ? ['entity/**/*.js'] : ['src/entity/**/*.ts'],
     subscribers: [],
     synchronize: process.env.DATABASE_SYNC === 'true',
   });
@@ -34,7 +35,7 @@ import cors from 'cors';
   const app = express();
   app.use(
     cors({
-      origin: process.env.WEB_URL,
+      origin: process.env.WEB_URL || 'http://localhost:3000',
       credentials: true,
     }),
   );

@@ -1,16 +1,27 @@
-version: '3.1'
+version: "3.1"
 
 services:
-  # web:
-  #   ports:
-  #     - '80:80'
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    environment:
+      - REACT_APP_API_URL=http://localhost:4000
+    ports:
+      - "80:80"
 
   server:
-    build: ./server
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile
     environment:
       - DATABASE_URL=postgres://postgres@db/jwt-auth
+      - DATABASE_SYNC=true
+      - WEB_URL=http://localhost
+      - ACCESS_TOKEN_SECRET=supersecretaccesstokensecret
+      - REFRESH_TOKEN_SECRET=supersecretrefreshtokensecret
     ports:
-      - '4000:4000'
+      - "4000:4000"
     depends_on:
       - db
 
@@ -19,5 +30,7 @@ services:
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
-      - '5432:5432'
+      - "5432:5432"
+    volumes:
+      - ./server/db/db-init.sql:/docker-entrypoint-initdb.d/
     restart: always
