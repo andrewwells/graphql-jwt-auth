@@ -27,7 +27,7 @@
     "pg": "^8.0.2",
     "reflect-metadata": "^0.1.10",
     "type-graphql": "^0.17.6",
-    "typeorm": "0.2.24"
+    "typeorm": "0.2.25"
   },
   "scripts": {
     "start": "NODE_ENV=production node index.js",
